@@ -1,0 +1,56 @@
+
+<div>
+    <button id="add-row" class="example_e">Add Blank Row to bottom</button>
+    <button id="clear" class="example_e">clear</button>
+    <button id="reset" class="example_e">reset</button>
+    <button id="csv" class="example_e">export to csv</button>
+    <button id="excel" class="example_e">export to excel</button>
+</div>
+
+<script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+<div id="example-table1"></div>
+
+<script>
+
+var table_data_json = {{ table_data_json|safe }};
+var tabulator_columns = {{ tabulator_columns|safe }};
+
+var table = new Tabulator("#example-table1", {
+    layout:"fitColumns",
+    resizableRows:true,
+    height:"600px",
+    data:table_data_json, //set initial table data
+    columns: tabulator_columns ,
+});
+
+//Add row on "Add Row" button click
+document.getElementById("add-row").addEventListener("click", function(){
+    table.addRow({});
+});
+
+//Delete row on "Delete Row" button click
+//document.getElementById("del-row").addEventListener("click", function(){
+//    table.deleteRow(1);
+//});
+
+//Clear table on "Empty the table" button click
+document.getElementById("clear").addEventListener("click", function(){
+    table.clearData()
+});
+
+//Reset table contents on "Reset the table" button click
+document.getElementById("reset").addEventListener("click", function(){
+    table.setData(table_data_json);
+});
+
+document.getElementById("csv").addEventListener("click", function(){
+    table.download("csv", "data.csv");
+});
+
+//trigger download of data.xlsx file
+document.getElementById("excel").addEventListener("click", function(){
+    table.download("xlsx", "data.xlsx", {sheetName:"My Data"});
+});
+
+
+</script>
